@@ -23,6 +23,7 @@ describe('PlayJack Login', () => {
     it('should show error with invalid credentials', () => {
         cy.visit('/login');
 
+        // Fill login form with invalid details
         cy.get('input[name="username"]').type('invaliduser');
         cy.get('input[name="password"]').type('wrongpassword');
         cy.get('button[type="submit"]').click();
