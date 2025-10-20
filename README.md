@@ -2,7 +2,20 @@
 
 A comprehensive web automation testing framework for PlayJack.com using Cypress and Playwright with TypeScript.
 
+## 🚀 Features
+
+- **Dual Framework Support**: Both Cypress and Playwright for flexibility
+- **TypeScript**: Full type safety and better development experience
+- **Cross-Browser Testing**: Support for Chrome, Firefox, Safari
+- **Custom Commands**: Reusable test utilities
+- **Page Object Model**: Maintainable and scalable test structure
+
 ## Technology Stack
+
+### ✅ Core Functionality
+- User Registration
+- User Login
+- Bonus History Verification
 
 ### Testing Frameworks
 - **Cypress**: For reliable end-to-end testing with excellent debugging capabilities
@@ -21,6 +34,22 @@ A comprehensive web automation testing framework for PlayJack.com using Cypress 
 ### Prerequisites
 - Node.js (version 16 or higher)
 - npm or yarn
+
+### 🧪 Test Cases
+1. **Successful Registration**
+    - Fill registration form with valid data
+    - Accept terms and conditions
+    - Verify successful account creation
+
+2. **Successful Login**
+    - Login with valid credentials
+    - Verify authentication
+    - Handle invalid login scenarios
+
+3. **Bonus History** (Optional)
+    - Navigate to account history
+    - Verify registration bonus appears
+    - Validate bonus amounts and descriptions
 
 ### Installation
 1. Clone the repository:
