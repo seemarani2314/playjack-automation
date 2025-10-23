@@ -72,7 +72,7 @@ npm run cy:run
 
 ### 🚀 Running Playwright Tests
 1. Run Playwright tests:
-npm run playwright:test
+npm run test:registration  # Headless Chromium Browser
 npm run test:reg           # Headless
 npm run test:reg-headed    # Headed
 npm run test:login         # Headless
