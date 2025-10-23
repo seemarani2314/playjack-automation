@@ -1,0 +1,7 @@
+# Force TypeScript detection
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# Exclude vendor files if needed
+node_modules/ linguist-vendored
+dist/ linguist-vendored
