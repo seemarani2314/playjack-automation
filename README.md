@@ -73,6 +73,10 @@ npm run cy:run
 ### 🚀 Running Playwright Tests
 1. Run Playwright tests:
 npm run playwright:test
+npm run test:reg           # Headless
+npm run test:reg-headed    # Headed
+npm run test:login         # Headless
+npm run test:debug         # Debug mode
 
 2. View Playwright test report:
 npm run playwright:report
