@@ -3,10 +3,12 @@ import { BasePage } from './BasePage';
 
 export class AccountPage extends BasePage {
     readonly accountNavigationButton: Locator;
+    readonly accountBalanceNavigation: Locator;
     readonly userName: Locator;
     readonly welcomeText: Locator;
     readonly logoutButton: Locator;
     readonly balance: Locator;
+    readonly accountHistory: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -15,6 +17,8 @@ export class AccountPage extends BasePage {
         this.welcomeText = page.locator('text=Welcome');
         this.logoutButton = page.locator('button[title="Logout"]');
         this.balance = page.locator('div[data-qa="balance"]');
+        this.accountBalanceNavigation= page.locator('a[title="Account Balance"]');
+        this.accountHistory = page.locator('a[title="HISTORY"]');
     }
 
     async isPageLoaded(): Promise<boolean> {
@@ -23,6 +27,16 @@ export class AccountPage extends BasePage {
 
     async navigateToAccount(): Promise<void> {
         await this.accountNavigationButton.click();
+        await this.waitForPageLoad();
+    }
+
+    async navigateToAccountBalance(): Promise<void> {
+        await this.accountBalanceNavigation.click();
+        await this.waitForPageLoad();
+    }
+
+    async navigateToHistory(): Promise<void> {
+        await this.accountHistory.click();
         await this.waitForPageLoad();
     }
 
