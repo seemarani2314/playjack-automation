@@ -1,10 +1,10 @@
 # PlayJack Automation Testing Framework
 
-A comprehensive web automation testing framework for PlayJack.com using Cypress and Playwright with TypeScript.
+A comprehensive web automation testing framework for PlayJack.com using Playwright with TypeScript.
 
 ## 🚀 Features
 
-- **Dual Framework Support**: Both Cypress and Playwright for flexibility
+- **Framework Support**: Playwright for flexibility
 - **TypeScript**: Full type safety and better development experience
 - **Cross-Browser Testing**: Support for Chrome, Firefox, Safari
 - **Custom Commands**: Reusable test utilities
@@ -18,14 +18,12 @@ A comprehensive web automation testing framework for PlayJack.com using Cypress 
 - Bonus History Verification
 
 ### Testing Frameworks
-- **Cypress**: For reliable end-to-end testing with excellent debugging capabilities
 - **Playwright**: For cross-browser testing and faster execution
 
 ### Programming Language
 - **TypeScript**: For type safety and better developer experience
 
 ### Key Dependencies
-- Cypress ^13.6.0
 - Playwright ^1.40.0
 - TypeScript ^5.3.3
 
@@ -63,13 +61,6 @@ A comprehensive web automation testing framework for PlayJack.com using Cypress 
    npx playwright install
 
 ### Test Execution Guide
-### 🚀 Running Cypress Tests
-1. Open Cypress Test Runner:
-   npm run cy:open
-
-2. Run Cypress tests in headless mode:
-   npm run cy:run
-
 ### 🚀 Running Playwright Tests
 1. Run Playwright tests:
 - npm run test:registration       # Headless Chromium Browser for registration tests
