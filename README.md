@@ -71,15 +71,15 @@ npm run cy:open
 npm run cy:run
 
 ### 🚀 Running Playwright Tests
-1. Run Playwright tests:
+3. Run Playwright tests:
 - npm run test:registration  # Headless Chromium Browser
 - npm run test:reg           # Headless
 - npm run test:reg-headed    # Headed
 - npm run test:login         # Headless
 - npm run test:debug         # Debug mode
 
-3. View Playwright test report:
-npm run playwright:report
+4. View Playwright test report:
+- npm run playwright:report
 
 ### 🚀 Run All Tests
 npm run test:all
