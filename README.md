@@ -53,32 +53,32 @@ A comprehensive web automation testing framework for PlayJack.com using Cypress 
 
 ###  🧪 Installation
 1. Clone the repository:
-git clone <repository-url>
-cd playjack-automation
+   git clone <repository-url>
+   cd playjack-automation
 
 2. Install dependencies:
-npm install
+   npm install
 
 3. Install Playwright browsers:
-npx playwright install
+   npx playwright install
 
 ### Test Execution Guide
 ### 🚀 Running Cypress Tests
 1. Open Cypress Test Runner:
-npm run cy:open
+   npm run cy:open
 
 2. Run Cypress tests in headless mode:
-npm run cy:run
+   npm run cy:run
 
 ### 🚀 Running Playwright Tests
-3. Run Playwright tests:
+1. Run Playwright tests:
 - npm run test:registration  # Headless Chromium Browser
 - npm run test:reg           # Headless
 - npm run test:reg-headed    # Headed
 - npm run test:login         # Headless
 - npm run test:debug         # Debug mode
 
-4. View Playwright test report:
+2. View Playwright test report:
 - npm run playwright:report
 
 ### 🚀 Run All Tests
