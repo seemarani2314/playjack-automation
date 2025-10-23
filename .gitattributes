@@ -1,7 +1,27 @@
-# Force TypeScript detection
+# Mark HTML as documentation/templates (optional)
+*.html linguist-documentation=false
+
+# Exclude build directories and vendor files
+dist/ linguist-vendored
+build/ linguist-vendored
+target/ linguist-vendored
+node_modules/ linguist-vendored
+*.js linguist-vendored
+
+# If you have large HTML template directories, exclude them:
+# src/main/webapp/ linguist-vendored
+
+# Override all file types
 *.ts linguist-language=TypeScript
 *.tsx linguist-language=TypeScript
+*.js linguist-language=TypeScript
+*.html linguist-documentation
+*.css linguist-documentation
 
-# Exclude vendor files if needed
+# Vendor everything except your core TypeScript source
+src/main/java/ linguist-vendored
+src/main/resources/ linguist-vendored
 node_modules/ linguist-vendored
 dist/ linguist-vendored
+build/ linguist-vendored
+target/ linguist-vendored
