@@ -72,14 +72,14 @@ A comprehensive web automation testing framework for PlayJack.com using Cypress 
 
 ### 🚀 Running Playwright Tests
 1. Run Playwright tests:
-   npm run test:registration  # Headless Chromium Browser
-   npm run test:reg           # Headless
-   npm run test:reg-headed    # Headed
-   npm run test:login         # Headless
-   npm run test:debug         # Debug mode
+- npm run test:registration  # Headless Chromium Browser
+- npm run test:reg           # Headless
+- npm run test:reg-headed    # Headed
+- npm run test:login         # Headless
+- npm run test:debug         # Debug mode
 
 2. View Playwright test report:
-   npm run playwright:report
+- npm run playwright:report
 
 ### 🚀 Run All Tests
 npm run test:all
