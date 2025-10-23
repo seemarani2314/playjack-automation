@@ -41,24 +41,24 @@ test.describe('PlayJack Registration Flow', () => {
         // Step 2: Fill and submit registration form
         await registrationPage.completeRegistration(testUser);
 
-        // Step 6: Set up dialog handler for any alerts
+        // Step 3: Set up dialog handler for any alerts
         page.on('dialog', dialog => dialog.dismiss().catch(() => {}));
 
-        // Step 3: Accept terms and conditions
+        // Step 4: Accept terms and conditions
         await termsPage.acceptTermsAndContinue();
 
-        // Step 4: Verify registration success
+        // Step 5: Verify registration success
         await page.waitForURL(/.*registrationSuccess=true/);
         await expect(page).toHaveURL(/.*registrationSuccess=true/);
 
-        // Step 5: Handle welcome gift
+        // Step 6: Handle welcome gift
         await welcomeGiftPage.verifyAllContent();
         await welcomeGiftPage.closeWelcomeGift();
 
-        // Step 6: Set up dialog handler for any alerts
+        // Step 7: Set up dialog handler for any alerts
         page.on('dialog', dialog => dialog.dismiss().catch(() => {}));
 
-        // Step 7: Verify user is logged in and on account page
+        // Step 8: Verify user is logged in and on account page
         await accountPage.verifyUserLoggedIn(testUser.username);
 
         console.log(`✓ Registration successful for user: ${testUser.username}`);
@@ -85,20 +85,26 @@ test.describe('PlayJack Registration Flow', () => {
     test('should handle registration with existing username', async ({ page }) => {
         // First registration
         await homePage.clickSignUp();
+        await registrationPage.waitForPageLoad();
         await registrationPage.completeRegistration(testUser);
+        page.on('dialog', dialog => dialog.dismiss().catch(() => {}));
         await termsPage.acceptTermsAndContinue();
+        await welcomeGiftPage.verifyAllContent();
         await welcomeGiftPage.closeWelcomeGift();
+        page.on('dialog', dialog => dialog.dismiss().catch(() => {}));
+        await accountPage.navigateToAccount();
         await accountPage.logout();
 
         // Try to register with same username again
         await homePage.clickSignUp();
+        await registrationPage.waitForPageLoad();
+
+        //Registering same user again
         await registrationPage.completeRegistration(testUser);
+        page.on('dialog', dialog => dialog.dismiss().catch(() => {}));
+        await termsPage.acceptTermsAndContinue();
 
-        // Should show error for duplicate username
-        await expect(page.locator('text=Username already exists')).toBeVisible();
-    });
-
-    test('should validate registration form fields', async ({ page }) => {
-        // Implementation for form validation tests
+        // Validation Should show for duplicate username
+        await expect(page.locator('text=Please choose different username!')).toBeVisible();
     });
 });

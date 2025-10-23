@@ -1,36 +1,73 @@
 import { test, expect } from '@playwright/test';
+import { HomePage } from '../pages/HomePage';
+import { RegistrationPage } from '../pages/RegistrationPage';
+import { TermsPage } from '../pages/TermsPage';
+import { WelcomeGiftPage } from '../pages/WelcomeGiftPage';
+import { AccountPage } from '../pages/AccountPage';
+import { LoginPage } from '../pages/LoginPage';
+import { UserGenerator } from '../../shared/utils/userGenerator';
+import { CookieHandler } from '../../shared/utils/cookieHandler';
 
 test.describe('PlayJack Bonus History', () => {
-    const testUser = {
-        username: 'testuser',
-        password: 'TestPassword123!'
-    };
+    let homePage: HomePage;
+    let registrationPage: RegistrationPage;
+    let termsPage: TermsPage;
+    let welcomeGiftPage: WelcomeGiftPage;
+    let accountPage: AccountPage;
+    let loginPage: LoginPage;
+    let testUser: any;
+
+    test.beforeEach(async ({ page }) => {
+        homePage = new HomePage(page);
+        registrationPage = new RegistrationPage(page);
+        termsPage = new TermsPage(page);
+        welcomeGiftPage = new WelcomeGiftPage(page);
+        accountPage = new AccountPage(page);
+        loginPage = new LoginPage(page);
+
+        // Generate test user
+        testUser = UserGenerator.generateUserData();
+
+        // Navigate to home page and handle cookies
+        await homePage.navigateToHomePage();
+        await CookieHandler.acceptAllCookies(page);
+    });
 
     test('should show registration bonus in account history', async ({ page }) => {
-        // Login first
-        await page.goto('/login');
-        await page.fill('input[name="username"]', testUser.username);
-        await page.fill('input[name="password"]', testUser.password);
-        await page.click('button[type="submit"]');
+        await homePage.clickSignUp();
+        await registrationPage.waitForPageLoad();
+        await registrationPage.completeRegistration(testUser);
+        page.on('dialog', dialog => dialog.dismiss().catch(() => {}));
+        await termsPage.acceptTermsAndContinue();
+        await welcomeGiftPage.verifyAllContent();
+        await welcomeGiftPage.closeWelcomeGift();
+        page.on('dialog', dialog => dialog.dismiss().catch(() => {}));
+        await accountPage.navigateToAccount();
 
-        // Navigate to account history
-        await page.goto('/my-account/account-history');
+        // Click on the Account Balance button
+        await accountPage.navigateToAccountBalance();
+
+        // Navigate to History tab
+        await accountPage.navigateToHistory();
 
         // Switch to Bonuses tab
-        await page.click('text=Bonuses');
+        await page.click('text=BONUS');
 
-        // Verify bonus history table
-        await expect(page.locator('table')).toBeVisible();
+        // Verify Registration Description
+        await expect(page.locator('(//td[normalize-space()="Welcome Aboard! Registration Bonus - 5000 chips"])[1]')).toBeVisible();
+        await expect(page.locator('//td[@class="winnnings"][normalize-space()="5,000"]')).toBeVisible();
+        console.log('✓ Registration bonus verification completed');
 
-        // Check for registration bonus
-        await expect(page.locator('text=Registration - Endless')).toBeVisible();
+        //Verify Login Description
+        await expect(page.locator('(//td[normalize-space()="Daily Login Bonus"])[1]')).toBeVisible();
+        await expect(page.locator('(//td[@class="balance start"][normalize-space()="5,000"])[1]')).toBeVisible();
+        console.log('✓ Daily login bonus verification completed');
 
-        // Verify bonus amount
-        await expect(page.locator('text=5,000')).toBeVisible();
+        //Verify that Registration Balance and Login Balance is same
+        const winningsValue = await page.locator('//td[@class="winnnings"][normalize-space()="5,000"]').textContent();
+        const balanceValue = await page.locator('(//td[@class="balance start"][normalize-space()="5,000"])[1]').textContent();
 
-        // Verify table structure and data
-        const bonusRow = page.locator('table tbody tr').first();
-        await expect(bonusRow.locator('td:nth-child(3)')).toContainText('Registration - Endless');
-        await expect(bonusRow.locator('td:nth-child(5)')).toContainText('5,000');
+        expect(winningsValue).toBe(balanceValue);
+        console.log(`✓ Both values match: ${winningsValue}`);
     });
 });
