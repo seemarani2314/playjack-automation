@@ -1,34 +1,55 @@
 import { test, expect } from '@playwright/test';
+import { HomePage } from '../pages/HomePage';
+import { LoginPage } from '../pages/LoginPage';
+import { AccountPage } from '../pages/AccountPage';
+import { CookieHandler } from '../../shared/utils/cookieHandler';
 
-test.describe('PlayJack Login', () => {
-    const existingUser = {
-        username: 'existinguser',
-        password: 'ExistingPassword123!'
-    };
+test.describe('PlayJack Login Flow', () => {
+    let homePage: HomePage;
+    let loginPage: LoginPage;
+    let accountPage: AccountPage;
 
-    test('should successfully login with valid credentials', async ({ page }) => {
-        await page.goto('/login');
+    test.beforeEach(async ({ page }) => {
+        homePage = new HomePage(page);
+        loginPage = new LoginPage(page);
+        accountPage = new AccountPage(page);
 
-        // Fill login form
-        await page.fill('input[name="username"]', existingUser.username);
-        await page.fill('input[name="password"]', existingUser.password);
-
-        // Submit login
-        await page.click('button[type="submit"]');
-
-        // Verify successful login
-        await expect(page).toHaveURL(/.*\/my-account/);
-        await expect(page.locator('text=Welcome')).toBeVisible();
-        await expect(page.locator(`text=${existingUser.username}`)).toBeVisible();
+        await homePage.navigateToHomePage();
+        await CookieHandler.acceptAllCookies(page);
     });
 
-    test('should show error with invalid credentials', async ({ page }) => {
-        await page.goto('/login');
+    test('should login with registered username and verify username matches', async ({ page }) => {
+        const registeredUsername = 'user1234eev';
+        const password = 'Test@123';
 
-        await page.fill('input[name="username"]', 'invaliduser');
-        await page.fill('input[name="password"]', 'wrongpassword');
-        await page.click('button[type="submit"]');
+        // Step 1: Navigate to login
+        await loginPage.navigateToLogin();
+        await loginPage.waitForPageLoad();
 
+        // Step 2: Fill and submit login form
+        await loginPage.login(registeredUsername, password);
+
+        // Step 3: Verify login success and redirect
+        await expect(page).toHaveURL(/.*\/my-account/);
+        await expect(accountPage.welcomeText).toBeVisible();
+
+        // Step 4: Verify username matches the registered username
+        await accountPage.verifyUserLoggedIn(registeredUsername);
+
+        console.log(`✓ Login successful! Verified username: ${registeredUsername}`);
+
+        // Step 5: Logout
+        await accountPage.logout();
+        await expect(loginPage.loginNavigationButton).toBeVisible();
+
+        console.log('✓ Logout successful');
+    });
+
+    test('should show error for invalid login credentials', async ({ page }) => {
+        await loginPage.navigateToLogin();
+        await loginPage.login('invaliduser', 'wrongpassword');
+
+        // Verify error message
         await expect(page.locator('text=Invalid username or password')).toBeVisible();
     });
 });

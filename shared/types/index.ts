@@ -2,9 +2,6 @@ export interface UserData {
     username: string;
     email: string;
     password: string;
-    firstName: string;
-    lastName: string;
-    dateOfBirth: string;
 }
 
 export interface BonusHistory {
